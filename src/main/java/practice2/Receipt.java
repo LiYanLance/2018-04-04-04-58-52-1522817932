@@ -13,14 +13,17 @@ public class Receipt {
     private BigDecimal tax;
 
     public double CalculateGrandTotal(List<Product> products, List<OrderItem> items) {
-        BigDecimal subTotal = getTotalPrice(products, items);
-        BigDecimal taxTotal = subTotal.multiply(tax);
-        BigDecimal grandTotal = subTotal.add(taxTotal);
-
+        BigDecimal totalPrice = calculateTotalPrice(products, items);
+        BigDecimal grandTotal = addTax(totalPrice);
         return grandTotal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 
-    private BigDecimal getTotalPrice(List<Product> products, List<OrderItem> items) {
+    private BigDecimal addTax(BigDecimal totalPrice) {
+        BigDecimal taxTotal = totalPrice.multiply(tax);
+        return totalPrice.add(taxTotal);
+    }
+
+    private BigDecimal calculateTotalPrice(List<Product> products, List<OrderItem> items) {
         BigDecimal totalPrice = new BigDecimal(0);
         for (Product product : products) {
             OrderItem curItem = findOrderItemByProduct(items, product);

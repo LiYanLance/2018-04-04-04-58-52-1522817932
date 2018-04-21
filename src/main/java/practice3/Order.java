@@ -16,6 +16,6 @@ public class Order {
     }
 
     public BigDecimal calculate() {
-        return new PriceCaculator().calculate(orderLineItemList, discounts, tax);
+        return new PriceCalculator().calculate(orderLineItemList, discounts, tax);
     }
 }
